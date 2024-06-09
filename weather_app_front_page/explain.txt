@@ -1,1 +1,0 @@
-here's the folder of frontend pf weather app containing front page of the web application
