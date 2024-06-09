@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current-Weather</title>
+    <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <style>
+        body{
+            color: rgb(12, 6, 6);
+            background: url("assets/back3.jpg");
+            background-position: center;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            font-family: "Cabin", sans-serif;
+        }
+        .weatherAppScreen{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            background-color: rgb(16, 78, 82);
+            background:transparent;
+            backdrop-filter: blur(10px);
+            border-radius: 35px;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 450px;
+            width: 500px;
+            overflow: hidden;
+            transition: height 8s ease;
+            box-shadow: 10px 10px 40px #020304,-10px -10px 20px #1b1313;
+        }
+        .WeatherFeature{
+            display: flex;
+            justify-content:space-around;
+            align-items: center;
+            font-size: 20px;
+            
+        }
+        .cloudCondition{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+      
+        .City_name{
+            text-align: center;
+            font-size: 30px;
+        }
+        i{
+            
+            color: rgb(20, 18, 15);
+        }
+     
+      /*  .humidity img, 
+        .WindSpeed img {
+        filter: brightness(0) saturate(100%) invert(90%) sepia(10%) saturate(1000%) hue-rotate(180deg);
+        }
+        */
+      
+    </style>
+</head>
+<body>
+    <div class="weatherAppScreen">
+        <div class="City_name">
+            <i class="bi bi-geo-alt-fill"></i><h2 class="city"></h2>
+        </div>
+        <div class="remover">
+            <img src="./assets/./404.png" class="weatherCond" height="100px" width="130px">
+            <h1 class="temperature"></h1>
+            <h2 class="cloudInfo"></h2>
+            
+            <div class="WeatherFeature">
+                <div class="humidity">
+                    <img src="./assets/humidity-svgrepo-com.svg" height="50px" width="50px">
+                    <h2 class="humide"></h2>
+                    <h3>Humidity</h3>
+                </div>
+                <div class="WindSpeed">
+                    <img src="./assets/wind-svgrepo-com.svg" height="50px" width="50px">
+                    <h2 class="windSp"></h2>
+                    <h3>Wind Speed</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const weatherData = JSON.parse(localStorage.getItem('weatherData'));
+            console.log(weatherData);
+            if (weatherData) {
+                document.querySelector('.city').innerText = weatherData.name;
+                document.querySelector('.temperature').innerText = `${Math.round(weatherData.main.temp - 273.15)}°C`;
+                document.querySelector('.humide').innerText = `${weatherData.main.humidity}%`;
+                document.querySelector('.windSp').innerText = `${weatherData.wind.speed} m/s`;
+                document.querySelector('.cloudInfo').innerText = weatherData.weather[0].description;
+
+                const img = weatherData.weather[0].main.toLowerCase();
+                const weatherCond = document.querySelector('.weatherCond');
+
+                if (img === "rain") {
+                    weatherCond.src = "./assets/rain.png";
+                } else if (img === "clouds") {
+                    weatherCond.src = "./assets/cloud.png";
+                } else if (img === "mist") {
+                    weatherCond.src = "./assets/mist.png";
+                } else if (img === "snow"){
+                    weatherCond.src = "./assets/snow.png";
+                } else {
+                    weatherCond.src = "./assets/clear.png";
+                }
+
+                document.querySelector(".weatherAppScreen").style.height=`${550}px`;
+            } else {
+                alert("No weather data found. Please go back and enter latitude and longitude.");
+            }
+        });
+    </script>
+</body>
+</html>
